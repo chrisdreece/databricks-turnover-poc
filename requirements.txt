@@ -1,0 +1,5 @@
+# Local data generation. Databricks serverless already provides these.
+numpy>=1.26
+pandas>=2.1
+# Optional, only for --format parquet
+# pyarrow>=14

@@ -1,0 +1,12 @@
+# Generated mock data: rebuild with `python src/adm_toy/datagen.py`
+data/
+
+# Personal working material, not part of the deliverable
+background/
+docs/
+spec.txt
+
+__pycache__/
+*.pyc
+.venv/
+.databricks/

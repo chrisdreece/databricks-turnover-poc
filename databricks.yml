@@ -1,0 +1,83 @@
+# Databricks Asset Bundle: declares the production job for the turnover model.
+# `databricks bundle deploy` uploads the code in this folder to the workspace and creates or updates
+# the job to match this file. Deploying to another workspace means adding a target, not editing the job.
+
+bundle:
+  name: adm_toy_turnover
+
+variables:
+  catalog:
+    description: Unity Catalog catalog holding the HR tables and the model
+    default: adm_toy
+  schema:
+    description: Schema inside the catalog
+    default: hr
+  experiment:
+    description: MLflow experiment that records each retrain
+    default: /Users/${workspace.current_user.userName}/adm_toy/turnover_model
+
+sync:
+  # Only code goes to the workspace: no local data, client background files or docs.
+  exclude:
+    - background/**
+    - data/**
+    - docs/**
+    - spec.txt
+
+targets:
+  dev:
+    default: true
+    workspace:
+      host: https://dbc-7fc82682-e6bd.cloud.databricks.com
+
+  # Template for ADM's workspace (not yet tested): fill in, uncomment, then
+  # `databricks bundle deploy -t prod`.
+  # prod:
+  #   mode: production
+  #   workspace:
+  #     host: https://<adm-workspace-host>
+  #     root_path: /Workspace/Shared/.bundle/${bundle.name}/${bundle.target}
+  #   run_as:
+  #     service_principal_name: <service-principal-application-id>
+  #   variables:
+  #     catalog: <catalog>
+  #     schema: <schema>
+  #     experiment: /Shared/turnover_model
+
+resources:
+  jobs:
+    turnover_monthly:
+      name: turnover_monthly
+      description: Monthly turnover model refresh. Retrains the age + tenure model on the latest 24 months of snapshots, then scores current employees.
+      schedule:
+        # 06:00 on the 2nd of every month, after the month-end snapshot has landed.
+        quartz_cron_expression: "0 0 6 2 * ?"
+        timezone_id: America/Chicago
+        pause_status: UNPAUSED
+      email_notifications:
+        on_failure:
+          - ${workspace.current_user.userName}
+      max_concurrent_runs: 1
+      environments:
+        # Serverless compute: no cluster to configure. The version pins the Python and package set.
+        - environment_key: default
+          spec:
+            environment_version: "4"
+      tasks:
+        - task_key: train
+          environment_key: default
+          spark_python_task:
+            python_file: ./src/adm_toy/train.py
+            parameters:
+              - --catalog=${var.catalog}
+              - --schema=${var.schema}
+              - --experiment=${var.experiment}
+        - task_key: score
+          depends_on:
+            - task_key: train
+          environment_key: default
+          spark_python_task:
+            python_file: ./src/adm_toy/score.py
+            parameters:
+              - --catalog=${var.catalog}
+              - --schema=${var.schema}
