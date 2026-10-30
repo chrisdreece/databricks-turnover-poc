@@ -25,8 +25,12 @@ sync:
     - spec.txt
 
 targets:
-  dev:
+  azure:
     default: true
+    workspace:
+      host: https://adb-7405608870033554.14.azuredatabricks.net
+
+  dev:
     workspace:
       host: https://dbc-7fc82682-e6bd.cloud.databricks.com
 
