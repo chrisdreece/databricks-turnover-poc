@@ -1,0 +1,155 @@
+<mxfile host="app.diagrams.net" agent="draft" pages="3" rtKey="17fe9f54.rBQ0ySJ4YplSeLBKUModHdBnfIT12kmP">
+  <diagram id="process" name="1 Production Pipeline">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1400" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;fontSize=16;" value="&lt;b&gt;1. Production pipeline: our best guess of how the data and model run at ADM (DRAFT, to confirm)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="760" x="40" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="key1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1F4E79;strokeWidth=1.5;fontSize=11;" value="Our working guess" vertex="1">
+          <mxGeometry height="26" width="140" x="40" y="48" as="geometry" />
+        </mxCell>
+        <mxCell id="key2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2E0;strokeColor=#C55A11;strokeWidth=1.5;dashed=1;dashPattern=6 4;fontSize=11;" value="OPEN QUESTION" vertex="1">
+          <mxGeometry height="26" width="230" x="196" y="48" as="geometry" />
+        </mxCell>
+        <mxCell id="src" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2E0;strokeColor=#C55A11;strokeWidth=1.5;dashed=1;dashPattern=6 4;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;HR source system&lt;/b&gt;&lt;br&gt;HRMS vendor product, or an Azure SQL database?&lt;br&gt;Do monthly snapshots exist, or only raw history tables (hires, terms, status changes, pay)?" vertex="1">
+          <mxGeometry height="150" width="190" x="40" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="pipe" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2E0;strokeColor=#C55A11;strokeWidth=1.5;dashed=1;dashPattern=6 4;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;Ingestion pipeline&lt;/b&gt;&lt;br&gt;Does one exist? Who builds and owns it?&lt;br&gt;(Data Factory, Databricks, other)&lt;br&gt;Is the HR data already in ADM&#39;s Azure storage?" vertex="1">
+          <mxGeometry height="150" width="190" x="280" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="storage" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1F4E79;strokeWidth=1.5;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;ADM Azure storage (data lake)&lt;/b&gt;&lt;br&gt;Raw HR tables land here as files (ideally Delta tables)" vertex="1">
+          <mxGeometry height="150" width="190" x="520" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="dbx" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F8FC;strokeColor=#1F4E79;strokeWidth=1.5;fontSize=13;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;arcSize=3;" value="&lt;b&gt;ADM Azure Databricks workspace&lt;/b&gt;" vertex="1">
+          <mxGeometry height="450" width="580" x="760" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="uc" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2E0;strokeColor=#C55A11;strokeWidth=1.5;dashed=1;dashPattern=6 4;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;Unity Catalog&lt;/b&gt; (names and permissions)&lt;br&gt;Are the HR tables registered, and in Delta format? Which catalog and schema can Vemo write to?" vertex="1">
+          <mxGeometry height="100" width="250" x="780" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="build" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2E0;strokeColor=#C55A11;strokeWidth=1.5;dashed=1;dashPattern=6 4;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;Step 1: Build monthly snapshots&lt;/b&gt; (SQL)&lt;br&gt;Only needed if ADM has no snapshots" vertex="1">
+          <mxGeometry height="90" width="250" x="780" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="train" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1F4E79;strokeWidth=1.5;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;Step 2: Train the model&lt;/b&gt; (Python)&lt;br&gt;Logged to MLflow, registered in Unity Catalog, alias &quot;champion&quot;" vertex="1">
+          <mxGeometry height="90" width="250" x="1070" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="score" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1F4E79;strokeWidth=1.5;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;Step 3: Score current employees&lt;/b&gt;&lt;br&gt;Loads the champion model, writes 6- and 12-month risk" vertex="1">
+          <mxGeometry height="80" width="250" x="1070" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="scores" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1F4E79;strokeWidth=1.5;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;Scores table&lt;/b&gt; (Delta)&lt;br&gt;Files stored in ADM&#39;s storage account" vertex="1">
+          <mxGeometry height="80" width="250" x="780" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="sched" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2E0;strokeColor=#C55A11;strokeWidth=1.5;dashed=1;dashPattern=6 4;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;Scheduler&lt;/b&gt; runs steps 1 to 3 monthly. What runs it: Databricks Jobs (what the POC uses), Data Factory, Airflow, other?" vertex="1">
+          <mxGeometry height="44" width="540" x="780" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="report" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2E0;strokeColor=#C55A11;strokeWidth=1.5;dashed=1;dashPattern=6 4;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;Reporting / HRMS database&lt;/b&gt;&lt;br&gt;How do scores get to where people see them?&lt;br&gt;a) BI tool reads the Delta table directly&lt;br&gt;b) the job writes to a SQL table&lt;br&gt;c) ADM&#39;s pipeline copies the table&lt;br&gt;Can anything be written into the HRMS itself?" vertex="1">
+          <mxGeometry height="200" width="190" x="520" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="src" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#444444;strokeWidth=1.5;fontSize=11;" target="pipe" value="extract">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="pipe" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#444444;strokeWidth=1.5;fontSize=11;" target="storage" value="land files">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="storage" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#444444;strokeWidth=1.5;fontSize=11;" target="uc" value="read by name">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="uc" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#444444;strokeWidth=1.5;" target="build" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="build" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#444444;strokeWidth=1.5;" target="train" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="train" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#444444;strokeWidth=1.5;" target="score" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="score" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#444444;strokeWidth=1.5;fontSize=11;" target="scores" value="write">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="scores" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#C55A11;strokeWidth=1.5;dashed=1;fontSize=11;" target="report" value="delivered how?">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="development" name="2 Development Pipeline">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1400" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;fontSize=16;" value="&lt;b&gt;2. Development pipeline: how Vemo builds and tests the model (DRAFT, to confirm with ADM)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="900" x="40" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="key1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1F4E79;strokeWidth=1.5;fontSize=11;" value="Our working guess" vertex="1">
+          <mxGeometry height="26" width="140" x="40" y="48" as="geometry" />
+        </mxCell>
+        <mxCell id="d1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1F4E79;strokeWidth=1.5;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;1. ADM gives Vemo access&lt;/b&gt;&lt;br&gt;Credentials to the project&#39;s Unity Catalog: read the HR tables, write to a schema of its own" vertex="1">
+          <mxGeometry height="130" width="290" x="40" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1F4E79;strokeWidth=1.5;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;2. Vemo connects from VS Code on Vemo Secure Server&lt;/b&gt;&lt;br&gt;Databricks extension + Databricks Connect. The code runs locally; the queries run on Databricks, and Unity Catalog checks Vemo&#39;s permissions" vertex="1">
+          <mxGeometry height="130" width="290" x="380" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1F4E79;strokeWidth=1.5;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;3. Vemo develops and tests there&lt;/b&gt;&lt;br&gt;Explore the data, build snapshots, fit and check the model, in Python (or R for exploring)" vertex="1">
+          <mxGeometry height="130" width="290" x="720" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1F4E79;strokeWidth=1.5;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;4. Finished code goes in a Git repo&lt;/b&gt;&lt;br&gt;Then on to the Deployment pipeline (next tab)" vertex="1">
+          <mxGeometry height="130" width="290" x="1060" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="f1" edge="1" parent="1" source="d1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#444444;strokeWidth=1.5;" target="d2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f2" edge="1" parent="1" source="d2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#444444;strokeWidth=1.5;" target="d3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f3" edge="1" parent="1" source="d3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#444444;strokeWidth=1.5;" target="d4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="deployment" name="3 Deployment Pipeline">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1400" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;fontSize=16;" value="&lt;b&gt;3. Deployment pipeline: how the finished code gets into ADM&#39;s production (DRAFT, to confirm with ADM)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="1100" x="40" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="key1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1F4E79;strokeWidth=1.5;fontSize=11;" value="Our proposal" vertex="1">
+          <mxGeometry height="26" width="140" x="40" y="48" as="geometry" />
+        </mxCell>
+        <mxCell id="key3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F2F2;strokeColor=#7F7F7F;strokeWidth=1.5;dashed=1;dashPattern=6 4;fontSize=11;" value="Alternative if ADM prefers" vertex="1">
+          <mxGeometry height="26" width="190" x="196" y="48" as="geometry" />
+        </mxCell>
+        <mxCell id="p1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1F4E79;strokeWidth=1.5;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;Vemo Secure Server&lt;/b&gt;&lt;br&gt;Run &quot;databricks bundle deploy&quot; by hand, once. Run it again only when the model changes" vertex="1">
+          <mxGeometry height="120" width="300" x="40" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1F4E79;strokeWidth=1.5;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;ADM Databricks workspace&lt;/b&gt;&lt;br&gt;The code is copied in and the monthly job is created or updated" vertex="1">
+          <mxGeometry height="120" width="300" x="450" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1F4E79;strokeWidth=1.5;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;Monthly job runs on its own&lt;/b&gt;&lt;br&gt;Train, then score, on the schedule. Nothing is run by hand after deploy" vertex="1">
+          <mxGeometry height="120" width="300" x="860" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F2F2;strokeColor=#7F7F7F;strokeWidth=1.5;dashed=1;dashPattern=6 4;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;Merge to ADM&#39;s Git repo&lt;/b&gt;&lt;br&gt;Code is reviewed and approved there" vertex="1">
+          <mxGeometry height="100" width="300" x="40" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F2F2;strokeColor=#7F7F7F;strokeWidth=1.5;dashed=1;dashPattern=6 4;fontSize=12;align=left;spacingLeft=8;spacingRight=6;verticalAlign=top;" value="&lt;b&gt;Automated pipeline&lt;/b&gt;&lt;br&gt;GitHub Actions or Azure DevOps runs the same bundle deploy for Vemo" vertex="1">
+          <mxGeometry height="100" width="300" x="450" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="p1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#444444;strokeWidth=1.5;fontSize=11;" target="p2" value="deploy">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="p2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#444444;strokeWidth=1.5;fontSize=11;" target="p3" value="on schedule">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="a1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#7F7F7F;strokeWidth=1.5;dashed=1;" target="a2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="a2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeColor=#7F7F7F;strokeWidth=1.5;dashed=1;fontSize=11;" target="p2" value="instead of Vemo Secure Server">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

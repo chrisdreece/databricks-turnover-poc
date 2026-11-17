@@ -1,8 +1,10 @@
 # Turnover risk model on Databricks (POC)
 
 A monthly Databricks job that retrains a simple employee-turnover model and scores current employees.
-It was built as a proof of concept on Databricks Free Edition with **mock HR data**, and is set up to
-deploy unchanged to another workspace.
+It is a proof of concept built with **mock HR data** on Azure Databricks (the default `azure` target in
+`databricks.yml`), with the data in an Azure storage account (ADLS Gen2) registered in Unity Catalog. A
+second target, `dev`, points at a Databricks Free Edition workspace. The job deploys unchanged to another
+workspace.
 
 ## What it does
 
@@ -103,4 +105,6 @@ databricks fs cp data/employee_snapshots.csv dbfs:/Volumes/adm_toy/hr/landing/em
 python scripts/run_sql.py sql/01_create_tables.sql
 ```
 
-`scripts/run_sql.py` uses the CLI profile `adm-toy` by default; pass `-p <name>` for another.
+`scripts/run_sql.py` uses the CLI profile `adm-toy` (Free Edition) by default; pass `-p adm-azure` for the
+Azure workspace, where the catalog must first be created with a managed location (see the comments in
+`sql/00_setup.sql`).
